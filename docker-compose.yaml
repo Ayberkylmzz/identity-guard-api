@@ -1,0 +1,36 @@
+services:
+  identity-db:
+    image: postgres:16-alpine
+    container_name: identity-db
+    environment:
+      POSTGRES_DB: identity_db
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    networks:
+      - identity-network
+
+  identity-guard-api:
+    build: .
+    container_name: identity-guard-api
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URL=${DB_URL}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - SERVER_PORT=${SERVER_PORT}
+      - SPRING_JPA_SHOW_SQL=${SPRING_JPA_SHOW_SQL}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      - SPRING_APPLICATION_NAME=${SPRING_APPLICATION_NAME}
+    depends_on:
+      - identity-db
+    networks:
+      - identity-network
+
+networks:
+  identity-network:
+    driver: bridge

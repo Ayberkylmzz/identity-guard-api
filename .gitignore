@@ -1,0 +1,27 @@
+# Build Files
+target/
+*.class
+build/
+
+# Secret Files (KRİTİK)
+.env
+
+# IDE Files
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.classpath
+.project
+.settings
+.factorypath
+
+# MacOS
+.DS_Store
+
+# Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Help Files
+HELP.md
